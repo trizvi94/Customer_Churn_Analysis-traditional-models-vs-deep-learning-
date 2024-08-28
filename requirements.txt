@@ -1,4 +1,9 @@
 numpy
 pandas
 seaborn
--e .
+plotly
+matplotlib
+scikit-learn
+tensorflow
+keras_tuner
+# -e .
