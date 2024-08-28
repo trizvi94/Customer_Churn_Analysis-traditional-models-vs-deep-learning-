@@ -6,4 +6,5 @@ matplotlib
 scikit-learn
 tensorflow
 keras_tuner
+dill
 # -e .
