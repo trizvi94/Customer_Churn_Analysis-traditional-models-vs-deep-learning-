@@ -1,75 +1,214 @@
-<html>
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of Southampton - Customer Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
 <body>
-    <div class="login">
-        <h1>Customer Churn Prediction</h1>
-        <form action="{{ url_for('predict_datapoint') }}" method="post">
-            <h1>
+    <div class="background">
+        <div class="form-container">
+            <h1>Bank of Southampton</h1>
+            <form action="{{ url_for('predict_datapoint') }}" method="post">
                 <legend>Predict Customer Churn</legend>
-            </h1>
-            <div class="mb-3">
-                <label class="form-label">Credit Score</label>
-                <input class="form-control" type="number" name="CreditScore" placeholder="Enter your Credit Score" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Geography</label>
-                <select class="form-control" name="Geography" placeholder="Select your Country" required>
-                    <option class="placeholder" selected disabled value="">Select Geography</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Spain">Spain</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Gender</label>
-                <select class="form-control" name="Gender" placeholder="Enter your Gender" required>
-                    <option class="placeholder" selected disabled value="">Select your Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Age</label>
-                <input class="form-control" type="number" name="Age" placeholder="Enter your Age" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Tenure</label>
-                <input class="form-control" type="number" name="Tenure" placeholder="Enter your Tenure" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Balance</label>
-                <input class="form-control" type="number" name="Balance" placeholder="Enter your Balance" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Number of Products</label>
-                <input class="form-control" type="number" name="NumOfProducts" placeholder="Enter Number of Products" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Has Credit Card</label>
-                <select class="form-control" name="HasCrCard" required>
-                    <option class="placeholder" selected disabled value="">Select</option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Is Active Member</label>
-                <select class="form-control" name="IsActiveMember" required>
-                    <option class="placeholder" selected disabled value="">Select</option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Estimated Salary</label>
-                <input class="form-control" type="number" name="EstimatedSalary" placeholder="Enter your Estimated Salary" required />
-            </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Predict Churn" />
-            </div>
-        </form>
-        <h2>
-            The prediction is: {{results}}
-        </h2>
+                <div class="mb-3">
+                    <label class="form-label">Credit Score</label>
+                    <input class="form-control" type="number" name="CreditScore" placeholder="Enter your Credit Score" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Geography</label>
+                    <select class="form-control" name="Geography" required>
+                        <option class="placeholder" selected disabled value="">Select Geography</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Spain">Spain</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" name="Gender" required>
+                        <option class="placeholder" selected disabled value="">Select your Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Age</label>
+                    <input class="form-control" type="number" name="Age" placeholder="Enter your Age" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tenure (in years)</label>
+                    <input class="form-control" type="number" name="Tenure" placeholder="Enter your Tenure" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Balance (Pounds)</label>
+                    <input class="form-control" type="number" name="Balance" placeholder="Enter your Balance" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Number of Products</label>
+                    <input class="form-control" type="number" name="NumOfProducts" placeholder="Enter Number of Products" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Has Credit Card</label>
+                    <select class="form-control" name="HasCrCard" required>
+                        <option class="placeholder" selected disabled value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Is Active Member</label>
+                    <select class="form-control" name="IsActiveMember" required>
+                        <option class="placeholder" selected disabled value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Estimated Salary (Pounds)</label>
+                    <input class="form-control" type="number" name="EstimatedSalary" placeholder="Enter your Estimated Salary" required />
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" value="Predict Churn" />
+                    <input class="btn btn-clear" type="reset" value="Clear" />
+                </div>
+            </form>
+            <h2>
+                {% if results %}
+                    {% if results == "Churn" %}
+                        Warning: The customer might leave the bank.
+                    {% else %}
+                        The customer is unlikely to leave the bank.
+                    {% endif %}
+                {% endif %}
+                
+            </h2>
+            
+            
+            <footer>
+                <p>Initiative by Taha Rizvi</p>
+            </footer>
+        </div>
     </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of Southampton - Customer Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-clear {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="form-container">
+            <h1>Bank of Southampton</h1>
+            <form action="{{ url_for('predict_datapoint') }}" method="post" id="predictForm">
+                <!-- Form fields as you provided -->
+                <!-- ... -->
+                
+                <div class="mb-3">
+                    <label class="form-label">Credit Score</label>
+                    <input class="form-control" type="number" name="CreditScore" placeholder="Enter your Credit Score" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Geography</label>
+                    <select class="form-control" name="Geography" required>
+                        <option class="placeholder" selected disabled value="">Select Geography</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Spain">Spain</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" name="Gender" required>
+                        <option class="placeholder" selected disabled value="">Select your Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Age</label>
+                    <input class="form-control" type="number" name="Age" placeholder="Enter your Age" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tenure (in years)</label>
+                    <input class="form-control" type="number" name="Tenure" placeholder="Enter your Tenure" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Balance (Pounds)</label>
+                    <input class="form-control" type="number" name="Balance" placeholder="Enter your Balance" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Number of Products</label>
+                    <input class="form-control" type="number" name="NumOfProducts" placeholder="Enter Number of Products" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Has Credit Card</label>
+                    <select class="form-control" name="HasCrCard" required>
+                        <option class="placeholder" selected disabled value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Is Active Member</label>
+                    <select class="form-control" name="IsActiveMember" required>
+                        <option class="placeholder" selected disabled value="">Select</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Estimated Salary (Pounds)</label>
+                    <input class="form-control" type="number" name="EstimatedSalary" placeholder="Enter your Estimated Salary" required />
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" value="Predict Churn" />
+                    <input class="btn btn-clear" type="button" id="clearButton" value="Clear" />
+                </div>
+            
+            </form>
+            <h2 id="resultMessage">
+                {% if results %}
+                    {% if results == "Churn" %}
+                        Warning: The customer might leave the bank.
+                    {% else %}
+                        The customer is unlikely to leave the bank.
+                    {% endif %}
+                {% endif %}
+            </h2>
+            <footer>
+                <p>Initiative by Taha Rizvi</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const clearButton = document.getElementById('clearButton');
+            const resultMessage = document.getElementById('resultMessage');
+
+            clearButton.addEventListener('click', () => {
+                resultMessage.textContent = '';
+            });
+        });
+    </script>
 </body>
 </html>
